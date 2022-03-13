@@ -27,3 +27,4 @@ bld/
 
 # localsettings file
 local.settings.json
+appsettings.json
