@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using DiffingAPI.Helper;
 using DiffingAPI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -14,7 +11,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace DiffingAPI
@@ -33,6 +29,7 @@ namespace DiffingAPI
         {
 
             services.AddControllers();
+            //services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DiffingAPI", Version = "v1" });
@@ -40,7 +37,8 @@ namespace DiffingAPI
             services.AddDbContext<DiffContext>(
                 ob =>ob.UseSqlServer(Configuration["Connection"],
                 sso => sso.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name)
-                ));  
+                )); 
+            services.AddScoped<IDiffDataHelper, DiffDataHelper>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
