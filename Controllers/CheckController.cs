@@ -32,14 +32,10 @@ namespace DiffingAPI.Controllers
             dynamic result = new ExpandoObject();
             try
             {
+                List<Diff> leftdiff  = await _diffHelper.DiffExists(id, DiffSide.left.ToString());
+                List<Diff> rightdiff = await _diffHelper.DiffExists(id, DiffSide.right.ToString());
                 
-                List<Diff> leftdiff = await _context.Diff.Where(d => d.DiffKey == id &&
-                d.Side == "left").ToListAsync();
-
-                List<Diff> rightdiff = await _context.Diff.Where(d => d.DiffKey == id &&
-                d.Side == "right").ToListAsync();
-                
-                if (leftdiff.Count == 0 || rightdiff.Count == 0)
+                if (leftdiff.Count== 0 || rightdiff.Count == 0)
                 {
                     return NotFound();
                 }

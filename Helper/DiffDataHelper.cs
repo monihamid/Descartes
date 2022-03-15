@@ -29,8 +29,8 @@ namespace DiffingAPI.Helper
             bool update = false;
             try
             {
-                bool diff = await DiffExists(diffdata.DiffKey, diffdata.Side);
-                if(diff)
+                List<Diff> diff = await DiffExists(diffdata.DiffKey, diffdata.Side);
+                if(diff.Count > 0)
                 {
                     var updatediff = _context.Diff.First(d => d.Side == side &&
                     d.DiffKey == id);
@@ -39,7 +39,7 @@ namespace DiffingAPI.Helper
                     _context.SaveChanges();
                     update = true; 
                 }
-                else
+                else if (diff.Count == 0)
                 {
                     _context.Diff.Add(diffdata);
                     await _context.SaveChangesAsync();
@@ -73,21 +73,12 @@ namespace DiffingAPI.Helper
         ///<param name="side">string </param>
         ///<return> boolean: true if did data exist </return>
 
-        private async Task<bool> DiffExists(int id, string side)
+        public async Task<List<Diff>> DiffExists(int id, string side)
         {
-            bool diffExist = false;
-            List<Diff> diff = await  _context.Diff.AsNoTracking().Where(d => d.DiffKey == id &&
-             d.Side == side).ToListAsync();
-             if(diff.Count >0)
-             {
-                 diffExist = true;
-             }
-             else
-             {
-              diffExist = false;   
-             }
-            return diffExist;
-        }
+            List<Diff> diffExist = new List<Diff>();
+             return diffExist = await  _context.Diff.AsNoTracking().Where(d => d.DiffKey == id &&
+              d.Side == side).ToListAsync();
+         }
 
     }
 }

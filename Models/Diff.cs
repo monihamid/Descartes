@@ -1,3 +1,6 @@
+
+namespace DiffingAPI.Models 
+{
 public class Diff
 {
     public int Id {get; set;}
@@ -6,4 +9,10 @@ public class Diff
     public string Side {get; set;}
     public int  Size {get; set;}          
 
+}
+public enum DiffSide
+    {
+        left,
+        right,
+    }
 }
