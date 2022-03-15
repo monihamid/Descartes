@@ -76,7 +76,7 @@ namespace DiffingAPI.Helper
         public async Task<List<Diff>> DiffExists(int id, string side)
         {
             List<Diff> diffExist = new List<Diff>();
-             return diffExist = await  _context.Diff.AsNoTracking().Where(d => d.DiffKey == id &&
+            return diffExist = await  _context.Diff.AsNoTracking().Where(d => d.DiffKey == id &&
               d.Side == side).ToListAsync();
          }
 
