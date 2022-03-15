@@ -1,16 +1,17 @@
 using System.Threading.Tasks;
 using DiffingAPI.Helper;
+using DiffingAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace DiffingAPI.Controllers
 {
     [ApiController]
-    public class AddController : ControllerBase
+    public class PutDiffDataController : ControllerBase
     {
-        private readonly ILogger<AddController> _logger;
+        private readonly ILogger<PutDiffDataController> _logger;
         private readonly IDiffDataHelper _diffHelper;
-        public AddController(ILogger<AddController> log, IDiffDataHelper dh)
+        public PutDiffDataController(ILogger<PutDiffDataController> log, IDiffDataHelper dh)
         {
             _logger = log;
             _diffHelper = dh;
@@ -25,7 +26,7 @@ namespace DiffingAPI.Controllers
                 return BadRequest();
             }
             // define the data object
-            diffdata.Side = "left";  //hardcoded not good
+            diffdata.Side = DiffSide.left.ToString();
             bool addDiff = await _diffHelper.UpdateDiff(diffdata.Side, id, diffdata);
              if(addDiff)
              {
@@ -47,7 +48,7 @@ namespace DiffingAPI.Controllers
             {
                 return BadRequest();
             }
-            diffdata.Side = "right";  //hardcoded not good
+            diffdata.Side = DiffSide.right.ToString();
             bool addDiff = await _diffHelper.UpdateDiff(diffdata.Side, id, diffdata);
             if(addDiff)
              {
