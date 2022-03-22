@@ -17,12 +17,11 @@ namespace DiffingAPI
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set;}
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -37,7 +36,8 @@ namespace DiffingAPI
                 ob =>ob.UseSqlServer(Configuration["Connection"],
                 sso => sso.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name)
                 )); 
-            services.AddScoped<IDiffDataHelper, DiffDataHelper>(); 
+            //services.AddSingleton<IDiffDataHelper, DiffDataHelper>(); 
+            services.AddScoped(typeof(IDiffDataHelper), typeof(DiffDataHelper));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
